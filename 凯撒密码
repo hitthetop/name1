@@ -1,0 +1,24 @@
+//二、凯撒密码解密
+func caesarDe(strCipher string, step_move byte) string {
+    //1.密文 转成 小写
+    str_cipher := strings.ToLower(strCipher)
+    //2.将字符串 转为 密文字符切片
+    str_slice_src := []byte(str_cipher)
+
+    //3. 创建 明文字符切片
+    str_slice_dst := make([]byte, len(str_slice_src), len(str_slice_src))
+
+    //4.循环密文切片
+    for i := 0; i < len(str_slice_src); i++ {
+        //5.如果当前循环的 密文字符 在位移 范围内，则直接 减去 位移步长 存入 明文字符切片
+        if str_slice_src[i] >= 97+step_move {
+            str_slice_dst[i] = str_slice_src[i] - step_move
+        } else { //6.如果 密文字符 超出 范围，则 加上 26 后，再向左位移
+            str_slice_dst[i] = str_slice_src[i] + 26 - step_move
+        }
+    }
+    //7.输出结果
+    fmt.Println("密文：", strCipher, str_slice_src)
+    fmt.Println("明文：", string(str_slice_dst), str_slice_dst)
+    return string(str_slice_dst)
+}
