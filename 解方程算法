@@ -1,0 +1,43 @@
+
+func solveEquation(equation string) string {
+	//只有整数才可以
+	//左边有几个正的x，几个负的x，右边有几个正的x，几个负的x，然后存起来
+	res:=strings.Split(equation,"=")
+	res1:=res[0]
+	res2:=res[1]
+	lx,ln:=judge(res1)
+	rx,rn:=judge(res2)
+	xval:=lx-rx
+	xnum:=rn-ln
+	if xval==0&&xnum==0{
+		return "Infinite solutions"
+	}else if xval==0&&xnum!=0{
+		return "No solution"
+	}else{
+		return "x="+strconv.Itoa(xnum/xval)
+	}
+	return "0"
+}
+func judge(s string)(int,int){
+	r,_:=regexp.Compile("[+,-]?[0-9]*x?")
+	res:=r.FindAllString(s,-1)
+	xval:=0
+	xnum:=0
+	for i:=0;i<len(res);i++{
+		if strings.Contains(res[i],"x"){
+			res[i]=res[i][:len(res[i])-1]
+			if res[i]==""||res[i]=="+"{
+				xval++
+			}else if res[i]=="-"{
+				xval--
+			}else{
+				n,_:=strconv.Atoi(res[i])
+				xval+=n
+			}
+		}else{
+			n,_:=strconv.Atoi(res[i])
+			xnum+=n
+		}
+	}
+	return xval,xnum
+}
